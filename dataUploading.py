@@ -29,8 +29,9 @@ class WeatherDataUploading:
         This function is used for uploading historical weather data, each data line
         contains weather data each 30 minutes interval
         '''
-        historicalDataCollection = self._db.get_collection('test_data')
+        historicalDataCollection = self._db.get_collection('test_data_1')
         historicalData = pd.read_json(f"./{folderName}/preprocessed-data.json")
+        historicalList = []
         for line in historicalData.values:
             jsonformat = dict()
             jsonformat['Time'] = line[0]
@@ -39,7 +40,8 @@ class WeatherDataUploading:
             jsonformat['Humidity'] = line[3]
             jsonformat['Pressure'] = line[4]
             jsonformat['Place'] = line[5]
-            historicalDataCollection.insert_one(jsonformat)
+            historicalList.append(jsonformat)
+        historicalDataCollection.insert_many(historicalList)
 
 if __name__ == '__main__':
     parser = ArgumentParser(description= "Uploading Viet Nam data already preprocessed to mongoDB, take 1 argument")

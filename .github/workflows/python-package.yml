@@ -36,7 +36,7 @@ jobs:
         git config --global user.email 'tuannguyenhuu0201@gmail.com'
         git add .
         git commit -m "Add data crawl"
-        git push origin HuuTuan
+        git push origin main
     - name: Preprocess
       run: |
         python3 ./dataPreprocessing.py PreprocessedData

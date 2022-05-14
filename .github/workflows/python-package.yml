@@ -34,7 +34,7 @@ jobs:
         python3 dataPreprocessing.py PreprocessedData
     - name: Preprocess
       run: |
-        python3 dataUpoading.py PreprocessedData
+        python3 dataUploading.py PreprocessedData
       
     
     

@@ -29,17 +29,12 @@ jobs:
     - name: Crawlata
       run: |
         python3 ./dataCollecting.py data -s "2022-05-12" -e "2022-05-13"
-    - name: Config
-      run: |
-        git config --global http.version HTTP/1.1
-        git config --global user.name "huutuan122"
-        git config --global user.email 'tuannguyenhuu0201@gmail.com'
-        git add .
-        git commit -m "Add data crawl"
-        git push origin main
     - name: Preprocess
       run: |
         python3 ./dataPreprocessing.py PreprocessedData
+    - name: Preprocess
+      run: |
+        python3 ./dataUpoading.py PreprocessedData
       
     
     

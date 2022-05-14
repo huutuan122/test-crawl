@@ -32,7 +32,7 @@ jobs:
     - name: Preprocess
       run: |
         python3 dataPreprocessing.py PreprocessedData
-    - name: Preprocess
+    - name: Upload
       run: |
         /opt/hostedtoolcache/Python/3.9.12/x64/bin/python3 -m pip install "pymongo[srv]"
         python3 dataUploading.py PreprocessedData

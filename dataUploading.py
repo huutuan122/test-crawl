@@ -29,7 +29,7 @@ class WeatherDataUploading:
         This function is used for uploading historical weather data, each data line
         contains weather data each 30 minutes interval
         '''
-        historicalDataCollection = self._db.get_collection('historical_data')
+        historicalDataCollection = self._db.get_collection('test_data')
         historicalData = pd.read_json(f"./{folderName}/preprocessed-data.json")
         for line in historicalData.values:
             jsonformat = dict()

@@ -1,8 +1,6 @@
 import pymongo
 import pandas as pd
 from datetime import datetime
-
-import matplotlib.pyplot as plt
 import pmdarima as pm
 import numpy as np
 from argparse import ArgumentParser

@@ -94,15 +94,15 @@ if __name__ == '__main__':
     efficientCollection = args.coefficollection
 
     places = [
-            #"Ho Chi Minh city", 
-            #"Hanoi", "Hai Phong", "Thua Thien Hue", "Khanh Hoa", "Can Tho", "Kien Giang", \
-            #"Binh Dinh", "Ba Ria - Vung Tau", "Nam Dinh", "Bac Giang", "Bac Lieu",  "Dak Lak", \
-            #"Ca Mau", "Quang Ninh",  "Cao Bang",  "Lam Dong", "Dien Bien", \
-            "Quang Tri", "Quang Binh", "Binh Phuoc", "Ha Giang", "Quang Ninh", "Hai Duong", "Hoa Binh", \
-            "Quang Nam", "Kon Tum", "Lao Cai", "An Giang", "Tien Giang", "Ninh Thuan", "Binh Thuan",\
-            "Ben Tre", "Gia Lai", "Quang Ngai", "Soc Trang", "Son La",  "Thai Nguyen", \
-            "Thanh Hoa", "Tra Vinh", "Phu Yen", "Tuyen Quang",  "Phu Tho", "Vinh Long",  \
-            "Lai Chau", "Yen Bai",  "Vinh Phuc"
+            "Ho Chi Minh city", 
+            "Hanoi", "Hai Phong", "Thua Thien Hue", "Khanh Hoa", "Can Tho", "Kien Giang", \
+            "Binh Dinh", "Ba Ria - Vung Tau", "Nam Dinh", "Bac Giang", "Bac Lieu",  "Dak Lak", \
+            "Ca Mau", "Quang Ninh",  "Cao Bang",  "Lam Dong", "Dien Bien", \
+            #"Quang Tri", "Quang Binh", "Binh Phuoc", "Ha Giang", "Quang Ninh", "Hai Duong", "Hoa Binh", \
+            #"Quang Nam", "Kon Tum", "Lao Cai", "An Giang", "Tien Giang", "Ninh Thuan", "Binh Thuan",\
+            #"Ben Tre", "Gia Lai", "Quang Ngai", "Soc Trang", "Son La",  "Thai Nguyen", \
+            #"Thanh Hoa", "Tra Vinh", "Phu Yen", "Tuyen Quang",  "Phu Tho", "Vinh Long",  \
+            #"Lai Chau", "Yen Bai",  "Vinh Phuc"
         ]
 
     connection_string = f'mongodb+srv://root:12345ADMIN@cluster0.5qjhz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'

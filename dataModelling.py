@@ -60,7 +60,7 @@ class WeatherDataPredicting:
                                 max_p=2, # max value of p to test
                                 max_q=2, # max value of q to test
                                 seasonal=True, # is the time series seasonal? YES
-                                m = 9, # the seasonal period
+                                m = 8, # the seasonal period
                                 #D=1, # seasonal difference order
                                 start_P=1, # initial guess for P
                                 start_Q=1, # initial guess for Q

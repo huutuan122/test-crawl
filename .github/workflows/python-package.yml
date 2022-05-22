@@ -28,7 +28,7 @@ jobs:
         pip install -r ./requirements.txt
     - name: Crawlata
       run: |
-        python3 dataCollecting.py data -s "2022-05-15" -e "2022-05-15"
+        python3 dataCollecting.py data -s "2021-05-21" -e "2022-05-21"
     - name: Preprocess
       run: |
         python3 dataPreprocessing.py PreprocessedData

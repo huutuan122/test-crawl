@@ -86,12 +86,12 @@ class WeatherPrediction:
                 predictList.append(jsonformat)
             predictlDataCollection.insert_many(predictList)
 
-    def RemoveOldRecords(self, dataCollection: str):
+    def RemoveOldRecords(self, predictCollection: str):
         '''
         Description:
         - Remove old predicted records 
         '''
-        collection = self._db.get_collection(dataCollection)
+        collection = self._db.get_collection(predictCollection)
         now = (datetime.utcnow() + timedelta(hours=7)).strftime("%Y-%m-%dT%H:%M:%S")
         collection.delete_many({'Time':{'$lt': now}})
 
@@ -131,7 +131,7 @@ if __name__ == '__main__':
 
     weatherObject.getData(collectionName,coefficientName)
     weatherObject.predictAndSave(places, predictName)
-    weatherObject.RemoveOldRecords(collectionName)
+    weatherObject.RemoveOldRecords(predictName)
 
     # weatherObject.getData(collectionName,coefficientName)
     # weatherObject.predictAndSave(places, predictName)

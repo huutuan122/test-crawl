@@ -29,4 +29,4 @@ jobs:
     - name: Upload coefficient
       run: |
         /opt/hostedtoolcache/Python/3.9.12/x64/bin/python3 -m pip install "pymongo[srv]"
-        python3 dataModelling.py demeter historical_data model_coefficient
+        python3 dataModelling.py demeter historical_data model_coefficient_new

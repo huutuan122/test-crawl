@@ -126,16 +126,12 @@ if __name__ == '__main__':
 
     weatherObject.connect(connection_string, dbname)
 
-    while True:
-        now = datetime.now()
-        if now.hour in np.arange(0, 22, 3) and now.minute == 0:
-            break
 
-    while True:
-        weatherObject.getData(collectionName,coefficientName)
-        weatherObject.predictAndSave(places, predictName)
-        weatherObject.RemoveOldRecords(collectionName)
-        time.sleep(3600)
+
+
+    weatherObject.getData(collectionName,coefficientName)
+    weatherObject.predictAndSave(places, predictName)
+    weatherObject.RemoveOldRecords(collectionName)
 
     # weatherObject.getData(collectionName,coefficientName)
     # weatherObject.predictAndSave(places, predictName)

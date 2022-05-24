@@ -52,7 +52,7 @@ class WeatherPrediction:
         Description:
         - Use SARIMAX to predict and save them to mongoDB
         '''
-        predictlDataCollection = self._db.get_collection(f'{predictCollection}')
+        predictList = []
         for place in places:
             print(place)
             # Get place's data and transform them
@@ -73,8 +73,6 @@ class WeatherPrediction:
                 # Forecast for the next 7 days
                 forecast = results.forecast(56)
                 result_predict.append(forecast)
-
-            predictList = []
             for i in range(len(result_predict[0])):
                 jsonformat = dict()
                 jsonformat['Time'] = result_predict[0].index[i].strftime('%Y-%m-%dT%H:%M:%S')
@@ -84,16 +82,10 @@ class WeatherPrediction:
                 jsonformat['Pressure'] = round(result_predict[3][i],1)
                 jsonformat['Place'] = place
                 predictList.append(jsonformat)
-            predictlDataCollection.insert_many(predictList)
-
-    def RemoveOldRecords(self, predictCollection: str):
-        '''
-        Description:
-        - Remove old predicted records 
-        '''
-        collection = self._db.get_collection(predictCollection)
-        now = (datetime.utcnow() + timedelta(hours=7)).strftime("%Y-%m-%dT%H:%M:%S")
-        collection.delete_many({'Time':{'$lt': now}})
+        self._db.drop_collection(predictList)
+        
+        predictlDataCollection = self._db.get_collection(predictList)
+        predictlDataCollection.insert_many(predictList)
 
 
 if __name__ == '__main__':
@@ -131,7 +123,6 @@ if __name__ == '__main__':
 
     weatherObject.getData(collectionName,coefficientName)
     weatherObject.predictAndSave(places, predictName)
-    weatherObject.RemoveOldRecords(predictName)
 
     # weatherObject.getData(collectionName,coefficientName)
     # weatherObject.predictAndSave(places, predictName)

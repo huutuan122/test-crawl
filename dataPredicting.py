@@ -77,13 +77,14 @@ class WeatherPrediction:
                 jsonformat = dict()
                 jsonformat['Time'] = result_predict[0].index[i].strftime('%Y-%m-%dT%H:%M:%S')
                 jsonformat['Temperature'] = round(result_predict[0][i],1)
-                jsonformat['Wind'] = round(result_predict[1][i],1)
+                if result_predict[1][i] > 0:
+                    jsonformat['Wind'] = round(result_predict[1][i],1)
+                else: jsonformat['Wind'] = 0
                 jsonformat['Humidity'] = round(result_predict[2][i],1)
                 jsonformat['Pressure'] = round(result_predict[3][i],1)
                 jsonformat['Place'] = place
                 predictList.append(jsonformat)
         self._db.drop_collection(predictCollection)
-        
         predictlDataCollection = self._db.get_collection(predictCollection)
         predictlDataCollection.insert_many(predictList)
 

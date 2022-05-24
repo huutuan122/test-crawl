@@ -79,6 +79,7 @@ class WeatherDataPredicting:
             modelCoefficient.append(result)
 
         # Save result to database
+        self._db.drop_collection(f'{coefficientCollection}')
         coefficientModelCollection = self._db.get_collection(f'{coefficientCollection}')
         coefficientModelCollection.insert_many(modelCoefficient)
 

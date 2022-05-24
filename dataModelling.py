@@ -9,6 +9,7 @@ from argparse import ArgumentParser
 class WeatherDataPredicting:
     def __init__(self):
         self._db = None
+        self._modelCoefficient = []
 
     def connect(self, connection_string: str, dbname: str):
         '''
@@ -33,7 +34,7 @@ class WeatherDataPredicting:
         self._df = self._df.drop(columns = '_id')
         self._df['Time'] = pd.to_datetime(self._df['Time'], format = '%Y-%m-%dT%H:%M:%S')
 
-    def trainAcrossRegion(self, place: str, coefficientCollection: str):
+    def trainAcrossRegion(self, place: str):
         '''
         Parameters:
         - place: Name of place was chosen to predict
@@ -48,7 +49,7 @@ class WeatherDataPredicting:
         trainingData = city_df['2020':].resample('3h').mean()
         # Fill missing data with the nearest datetime
         trainingData = trainingData.fillna(method = 'ffill')
-        modelCoefficient = []
+        
         # Traverse through 4 attributes: Temperature, Humidity, Wind, Pressure
         for column in trainingData.columns:
             print(column)
@@ -76,12 +77,19 @@ class WeatherDataPredicting:
             result['order'] = model.order
             result['seasonal_order'] = model.seasonal_order
             
-            modelCoefficient.append(result)
+            self._modelCoefficient.append(result)
+  
 
-        # Save result to database
+    def updateToDatabase(self, coefficientCollection: str):
+        '''
+        Parameters:
+        - coefficientCollection: The collection in MongoDB to store coefficient
+        Description:
+        - Save data to coefficientCollection on Database
+        '''
         self._db.drop_collection(f'{coefficientCollection}')
         coefficientModelCollection = self._db.get_collection(f'{coefficientCollection}')
-        coefficientModelCollection.insert_many(modelCoefficient)
+        coefficientModelCollection.insert_many(self._modelCoefficient)
 
 if __name__ == '__main__':
     parser = ArgumentParser(description= "Uploading parameter for prediction model")
@@ -92,7 +100,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     dbname  = args.dbname
     collectionName = args.collectionName
-    efficientCollection = args.coefficollection
+    coefficientCollection = args.coefficollection
 
     places = [
             "Ho Chi Minh city", 
@@ -111,7 +119,8 @@ if __name__ == '__main__':
     predictObject.connect(connection_string, dbname)
     predictObject.getData(collectionName)
     for place in places:
-        predictObject.trainAcrossRegion(place, efficientCollection)
+        predictObject.trainAcrossRegion(place)
+    predictObject.updateToDatabase(coefficientCollection)
 
 
   

@@ -82,9 +82,9 @@ class WeatherPrediction:
                 jsonformat['Pressure'] = round(result_predict[3][i],1)
                 jsonformat['Place'] = place
                 predictList.append(jsonformat)
-        self._db.drop_collection(predictList)
+        self._db.drop_collection(predictCollection)
         
-        predictlDataCollection = self._db.get_collection(predictList)
+        predictlDataCollection = self._db.get_collection(predictCollection)
         predictlDataCollection.insert_many(predictList)
 
 

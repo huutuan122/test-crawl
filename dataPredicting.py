@@ -33,7 +33,8 @@ class WeatherPrediction:
         - dataCollection: Name of historical collection
         - coefficientCollection: name of coefficient for the model collection
         Description:
-        - Get data and coefficient for training model
+        - Get data and coefficient for training model and return places
+        list in dataframe.
         '''
         historicalDataCollection = self._db.get_collection(dataCollection)
         coefficientCollection= self._db.get_collection(coefCollection)
@@ -43,6 +44,8 @@ class WeatherPrediction:
         self._df = self._df.set_index('Time')
         # Get the coefficient for model
         self._coef_df =  pd.DataFrame(list(coefficientCollection.find({}, {'_id': False})))
+        
+        return self._df['Place'].unique()
 
     def predictAndSave(self, places: list, predictCollection: str):
         '''
@@ -102,17 +105,17 @@ if __name__ == '__main__':
     coefficientName = args.coeffiCollection
     predictName = args.predictCollection
 
-    places = [
-            "Ho Chi Minh city", 
-            "Hanoi", "Hai Phong", "Thua Thien Hue", "Khanh Hoa", "Can Tho", "Kien Giang", \
-            "Binh Dinh", "Ba Ria - Vung Tau", "Nam Dinh", "Bac Giang", "Bac Lieu",  "Dak Lak", \
-            "Ca Mau", "Quang Ninh",  "Cao Bang",  "Lam Dong", "Dien Bien", \
-            "Quang Tri", "Quang Binh", "Binh Phuoc", "Ha Giang", "Quang Ninh", "Hai Duong", "Hoa Binh", \
-            "Quang Nam", "Kon Tum", "Lao Cai", "An Giang", "Tien Giang", "Ninh Thuan", "Binh Thuan",\
-            "Ben Tre", "Gia Lai", "Quang Ngai", "Soc Trang", "Son La",  "Thai Nguyen", \
-            "Thanh Hoa", "Tra Vinh", "Phu Yen", "Tuyen Quang",  "Phu Tho", "Vinh Long",  \
-            "Lai Chau", "Yen Bai",  "Vinh Phuc"
-        ]
+#     places = [
+#             "Ho Chi Minh city", 
+#             "Hanoi", "Hai Phong", "Thua Thien Hue", "Khanh Hoa", "Can Tho", "Kien Giang", \
+#             "Binh Dinh", "Ba Ria - Vung Tau", "Nam Dinh", "Bac Giang", "Bac Lieu",  "Dak Lak", \
+#             "Ca Mau", "Quang Ninh",  "Cao Bang",  "Lam Dong", "Dien Bien", \
+#             "Quang Tri", "Quang Binh", "Binh Phuoc", "Ha Giang", "Quang Ninh", "Hai Duong", "Hoa Binh", \
+#             "Quang Nam", "Kon Tum", "Lao Cai", "An Giang", "Tien Giang", "Ninh Thuan", "Binh Thuan",\
+#             "Ben Tre", "Gia Lai", "Quang Ngai", "Soc Trang", "Son La",  "Thai Nguyen", \
+#             "Thanh Hoa", "Tra Vinh", "Phu Yen", "Tuyen Quang",  "Phu Tho", "Vinh Long",  \
+#             "Lai Chau", "Yen Bai",  "Vinh Phuc"
+#         ]
 
     weatherObject = WeatherPrediction()
     connection_string = f'mongodb+srv://root:12345ADMIN@cluster0.5qjhz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
@@ -122,7 +125,7 @@ if __name__ == '__main__':
 
 
 
-    weatherObject.getData(collectionName,coefficientName)
+    places = weatherObject.getData(collectionName,coefficientName)
     weatherObject.predictAndSave(places, predictName)
 
     # weatherObject.getData(collectionName,coefficientName)

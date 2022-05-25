@@ -28,11 +28,15 @@ class WeatherDataPredicting:
         - collectionName: Name of the collection that contain data
         Description:
         - Get data from the chosen collection, change some properties to match the model
+        and return the list of place in this collection
         '''
         historicalData = self._db.get_collection(f'{collectionName}')
         self._df = pd.DataFrame(list(historicalData.find()))
         self._df = self._df.drop(columns = '_id')
         self._df['Time'] = pd.to_datetime(self._df['Time'], format = '%Y-%m-%dT%H:%M:%S')
+        places = self._df['Place'].unique().values
+        
+        return places
 
     def trainAcrossRegion(self, place: str):
         '''
@@ -45,8 +49,8 @@ class WeatherDataPredicting:
         city_df = self._df[self._df['Place'] == place]
         city_df = city_df.set_index('Time')
         city_df = city_df.sort_index()
-        # Training data from 2020, train for each 3-hour-period
-        trainingData = city_df['2020':].resample('3h').mean()
+        # Training data for each 3-hour-period
+        trainingData = city_df[:].resample('3h').mean()
         # Fill missing data with the nearest datetime
         trainingData = trainingData.fillna(method = 'ffill')
         
@@ -102,22 +106,22 @@ if __name__ == '__main__':
     collectionName = args.collectionName
     coefficientCollection = args.coefficollection
 
-    places = [
-            "Ho Chi Minh city", 
-            "Hanoi", "Hai Phong", "Thua Thien Hue", "Khanh Hoa", "Can Tho", "Kien Giang", \
-            "Binh Dinh", "Ba Ria - Vung Tau", "Nam Dinh", "Bac Giang", "Bac Lieu",  "Dak Lak", \
-            "Ca Mau", "Quang Ninh",  "Cao Bang",  "Lam Dong", "Dien Bien", \
-            "Quang Tri", "Quang Binh", "Binh Phuoc", "Ha Giang", "Quang Ninh", "Hai Duong", "Hoa Binh", \
-            "Quang Nam", "Kon Tum", "Lao Cai", "An Giang", "Tien Giang", "Ninh Thuan", "Binh Thuan",\
-            "Ben Tre", "Gia Lai", "Quang Ngai", "Soc Trang", "Son La",  "Thai Nguyen", \
-            "Thanh Hoa", "Tra Vinh", "Phu Yen", "Tuyen Quang",  "Phu Tho", "Vinh Long",  \
-            "Lai Chau", "Yen Bai",  "Vinh Phuc"
-        ]
+#     places = [
+#             "Ho Chi Minh city", 
+#             "Hanoi", "Hai Phong", "Thua Thien Hue", "Khanh Hoa", "Can Tho", "Kien Giang", \
+#             "Binh Dinh", "Ba Ria - Vung Tau", "Nam Dinh", "Bac Giang", "Bac Lieu",  "Dak Lak", \
+#             "Ca Mau", "Quang Ninh",  "Cao Bang",  "Lam Dong", "Dien Bien", \
+#             "Quang Tri", "Quang Binh", "Binh Phuoc", "Ha Giang", "Quang Ninh", "Hai Duong", "Hoa Binh", \
+#             "Quang Nam", "Kon Tum", "Lao Cai", "An Giang", "Tien Giang", "Ninh Thuan", "Binh Thuan",\
+#             "Ben Tre", "Gia Lai", "Quang Ngai", "Soc Trang", "Son La",  "Thai Nguyen", \
+#             "Thanh Hoa", "Tra Vinh", "Phu Yen", "Tuyen Quang",  "Phu Tho", "Vinh Long",  \
+#             "Lai Chau", "Yen Bai",  "Vinh Phuc"
+#         ]
 
     connection_string = f'mongodb+srv://root:12345ADMIN@cluster0.5qjhz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
     predictObject = WeatherDataPredicting()
     predictObject.connect(connection_string, dbname)
-    predictObject.getData(collectionName)
+    places = predictObject.getData(collectionName)
     for place in places:
         predictObject.trainAcrossRegion(place)
     predictObject.updateToDatabase(coefficientCollection)

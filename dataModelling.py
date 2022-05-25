@@ -34,7 +34,7 @@ class WeatherDataPredicting:
         self._df = pd.DataFrame(list(historicalData.find()))
         self._df = self._df.drop(columns = '_id')
         self._df['Time'] = pd.to_datetime(self._df['Time'], format = '%Y-%m-%dT%H:%M:%S')
-        places = self._df['Place'].unique().values
+        places = self._df['Place'].unique()
         
         return places
 

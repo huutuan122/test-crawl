@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import time
 import pandas as pd
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date 
 import os
 from argparse import ArgumentParser
 

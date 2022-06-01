@@ -46,7 +46,8 @@ class WeatherDataPreprocessing:
         Description:
         Clean the data using pandas function and Regular Expression
         '''
-        self._df['Time'] = [datetime.strptime(s, '%Y-%m-%d %H:%M') for s in self._df['Date'] + " " + self._df['Time']]
+        self._df['Time'] = [datetime.strptime(s, '%Y-%m-%d %H:%M') \
+            for s in self._df['Date'] + " " + self._df['Time']]
         self._df['Time'] = [s.strftime('%Y-%m-%dT%H:%M:%S') for s in self._df['Time']]
         self._df['Wind'] = self._df['Wind'].replace("Calm", "0 Km/h").str.extract(r'(\d+?)(?= \D)')
         self._df['Temperature'] = self._df['Temperature'].str.extract(r'(\d+)')

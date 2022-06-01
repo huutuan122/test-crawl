@@ -41,7 +41,8 @@ class WeatherDataCollecting:
         Parameters:
         - cities: list of cities
         - gids: list of id of cities on the maps, in cities's order
-        - stations: list of station that get information of cities on the maps, in cities's order
+        - stations: list of station that get information of cities 
+        on the maps, in cities's order
 
         Description:
         Collect the weather data from mv.freemeteo.com and save as json format
